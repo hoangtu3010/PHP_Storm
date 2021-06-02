@@ -16,40 +16,30 @@
     <title>Danh sách sản phẩm</title>
 </head>
 <body>
+    <?php
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $db = "product_php";
+
+        $conn = new mysqli($servername, $username, $password, $db);
+
+        if ($conn->connect_errno){
+            die("Connect Error...");
+        }
+
+        $sql_txt = "select * from products";
+        $rs = $conn->query($sql_txt);
+        $dssanpham = [];
+        if ($rs->num_rows > 0){
+            while ($row = $rs -> fetch_assoc()){
+                $dssanpham[] = $row;
+            }
+        }
+    ?>
     <div class="container">
         <h1 class="text-center" style="margin-top: 20px; padding: 10px; background-color: rgb(13 110 253 / 25%) ;">Danh sách sản phẩm</h1>
     </div>
-    <?php
-        $dssanpham = [];
-        $dssanpham[] = [
-            "stt"=>1,
-            "name"=>"Iphone13",
-            "price"=>2000,
-            "describe"=>"Good",
-            "supplier"=>"Apple"
-        ];
-        $dssanpham[] = [
-            "stt"=>2,
-            "name"=>"Samsung A20S",
-            "price"=>1500,
-            "describe"=>"Great",
-            "supplier"=>"Samsung"
-        ];
-        $dssanpham[] = [
-            "stt"=>3,
-            "name"=>"Oppo Zeno",
-            "price"=>800,
-            "describe"=>"Nice",
-            "supplier"=>"Oppo"
-        ];
-        $dssanpham[] = [
-            "stt"=>4,
-            "name"=>"Nokia 1280",
-            "price"=>20,
-            "describe"=>"Ohhh",
-            "supplier"=>"Nokia"
-        ];
-    ?>
     <div class="container" style="padding: 50px 10px">
         <a href="addProduct.php"><button class="btn btn-primary" style="margin-bottom: 20px">Thêm mới</button></a>
         <table class="table table-striped table-hover">
@@ -59,17 +49,18 @@
                 <th>Giá</th>
                 <th>Mô Tả</th>
                 <th>NCC</th>
-                <th class="text-center">Tool</th>
+                <th colspan="2" class="text-center">Tool</th>
             </thead>
             <tbody>
                 <?php foreach ($dssanpham as $sp){ ?>
                     <tr>
-                        <td><?php echo $sp["stt"]; ?></td>
+                        <td><?php echo $sp["id"]; ?></td>
                         <td><?php echo $sp["name"]; ?></td>
                         <td><?php echo $sp["price"]; ?></td>
-                        <td><?php echo $sp["describe"]; ?></td>
-                        <td><?php echo $sp["supplier"]; ?></td>
-                        <td class="text-center"><a href="editProduct.php" style="color: #000"><i class="bi bi-pencil-square"></i></a></td>
+                        <td><?php echo $sp["painted"]; ?></td>
+                        <td><?php echo $sp["ncc"]; ?></td>
+                        <td class="text-center"><a href="editProduct.php?id=<?php echo $sp["id"] ?>" style="color: #000"><i class="bi bi-pencil-square"></i></a></td>
+                        <td class="text-center"><a href="deleteProduct.php?id=<?php echo $sp["id"] ?>" style="color: #000"><i class="bi bi-trash"></i></a></td>
                     </tr>
                 <?php } ?>
             </tbody>

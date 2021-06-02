@@ -18,31 +18,31 @@
 <body>
 <div class="container">
     <h2 style="margin-top: 20px; padding: 10px 0; border-bottom: 2px solid cadetblue;" >Thêm mới Category</h2>
-    <form style="margin-top: 40px" class="row g-3 needs-validation" novalidate>
+    <form action="luucategory.php" method="post" style="margin-top: 40px" class="row g-3 needs-validation" novalidate>
         <div class="col-md-4">
             <label for="validationCustom01" class="form-label">Tên Category</label>
-            <input type="text" class="form-control" id="validationCustom01" placeholder="Name" required>
+            <input name="name" type="text" class="form-control" id="validationCustom01" placeholder="Name" required>
             <div class="invalid-feedback">
                 Please enter name.
             </div>
         </div>
         <div class="col-md-4">
             <label for="validationCustom02" class="form-label">Slug</label>
-            <input type="text" class="form-control" id="validationCustom02" placeholder="Slug" required>
+            <input name="slug" type="text" class="form-control" id="validationCustom02" placeholder="Slug" required>
             <div class="invalid-feedback">
                 Please enter slug.
             </div>
         </div>
         <div class="col-md-4">
             <label for="validationCustom02" class="form-label">Count</label>
-            <input type="text" class="form-control" id="validationCustom02" placeholder="Count" required>
+            <input name="count" type="text" class="form-control" id="validationCustom02" placeholder="Count" required>
             <div class="invalid-feedback">
                 Please enter count.
             </div>
         </div>
         <div class="col-md-12">
             <label for="validationCustom03" class="form-label">Mô tả</label>
-            <textarea rows="5" class="form-control" id="validationCustom03"></textarea>
+            <textarea name="painted" rows="5" class="form-control" id="validationCustom03"></textarea>
         </div>
         <div class="col-12">
             <button class="btn btn-success" type="submit">Thêm mới</button>

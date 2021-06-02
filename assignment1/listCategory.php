@@ -18,44 +18,47 @@
 <body>
     <div class="container">
         <?php
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $db = "product_php";
+
+            $conn = new mysqli($servername, $username, $password, $db);
+
+            if ($conn->connect_errno){
+                die("Connect Error...");
+            }
+
+            $sql_txt = "select * from categories";
+            $rs = $conn->query($sql_txt);
             $dscategory = [];
-            $dscategory[] = [
-                "name"=>"SmartPhone",
-                "describe"=>"This is smartphone",
-                "slug"=>"smartphone",
-                "count"=>83
-            ];
-            $dscategory[] = [
-                "name"=>"PC",
-                "describe"=>"This is pc",
-                "slug"=>"pc",
-                "count"=>26
-            ];
-            $dscategory[] = [
-                "name"=>"Airpod",
-                "describe"=>"This is airpod",
-                "slug"=>"airpod",
-                "count"=>123
-            ];
+            if ($rs->num_rows > 0){
+                while ($row = $rs -> fetch_assoc()){
+                    $dscategory[] = $row;
+                }
+            }
         ?>
         <h1 class="text-center" style="margin: 20px 0 50px 0; padding: 10px; background-color: rgb(13 110 253 / 25%) ;">Danh sách Category</h1>
         <a href="addCategory.php"><button class="btn btn-primary" style="margin-bottom: 20px">Thêm mới</button></a>
         <table class="table table-striped table-hover">
             <thead>
+            <th>Id</th>
             <th>Tên</th>
             <th>Mô tả</th>
             <th>Slug</th>
             <th>Count</th>
-            <th class="text-center">Tool</th>
+            <th colspan="2" class="text-center">Tool</th>
             </thead>
             <tbody>
             <?php foreach ($dscategory as $ct){ ?>
                 <tr>
+                    <td><?php echo $ct["id"]; ?></td>
                     <td><?php echo $ct["name"]; ?></td>
-                    <td><?php echo $ct["describe"]; ?></td>
+                    <td><?php echo $ct["painted"]; ?></td>
                     <td><?php echo $ct["slug"]; ?></td>
                     <td><?php echo $ct["count"]; ?></td>
-                    <td class="text-center"><a href="editCategory.php" style="color: #000"><i class="bi bi-pencil-square"></i></a></td>
+                    <td class="text-center"><a href="editCategory.php?id=<?php echo $ct["id"]; ?>" style="color: #000"><i class="bi bi-pencil-square"></i></a></td>
+                    <td class="text-center"><a href="deleteCategory.php?id=<?php echo $ct["id"] ?>" style="color: #000"><i class="bi bi-trash"></i></a></td>
                 </tr>
             <?php } ?>
             </tbody>

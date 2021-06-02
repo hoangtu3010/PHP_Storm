@@ -16,27 +16,54 @@
     <title>Cập nhật sản phẩm</title>
 </head>
 <body>
+    <?php
+        $id = $_GET["id"];
+        $servername = "localhost";
+        $username = "root";
+        $passworld = "";
+        $db = "product_php";
+        // create connection
+        $conn = new mysqli($servername,$username,$passworld,$db);
+
+        // kiểm tra kết nối
+        if ($conn->connect_errno){
+            die("Connect error..."); // die làm dừng chương trình tại đây
+        }
+
+        $sql_txt = "select * from products where id = '$id'";
+        $rs = $conn->query($sql_txt);
+        $pr = null;
+        if ($rs->num_rows>0){
+            while ($row = $rs -> fetch_assoc()){
+                $pr = $row;
+                break;
+            }
+        }
+        if ($pr == null) header("location: lab1.php");
+    ?>
+
 <div class="container">
     <h2 style="margin-top: 20px; padding: 10px 0; border-bottom: 2px solid cadetblue;" >Sửa sản phẩm</h2>
-    <form style="margin-top: 40px" class="row g-3 needs-validation" novalidate>
+    <form style="margin-top: 40px" class="row g-3 needs-validation" action="updateProduct.php" method="post" novalidate>
+        <input type="hidden" name="id" value="<?php echo $pr["id"]; ?>" />
         <div class="col-md-4">
             <label for="validationCustom01" class="form-label">Tên Sản Phẩm</label>
-            <input type="text" class="form-control" id="validationCustom01" placeholder="Name" required>
+            <input name="name" type="text" class="form-control" id="validationCustom01" value="<?php echo $pr["name"]; ?>" required />
             <div class="invalid-feedback">
                 Please enter name.
             </div>
         </div>
         <div class="col-md-4">
             <label for="validationCustom02" class="form-label">Giá</label>
-            <input type="text" class="form-control" id="validationCustom02" placeholder="Price" required>
+            <input name="price" type="text" class="form-control" id="validationCustom02" value="<?php echo $pr["price"]; ?>" required />
             <div class="invalid-feedback">
                 Please enter price.
             </div>
         </div>
         <div class="col-md-4">
             <label for="validationCustom04" class="form-label">Nhà Cung Cấp</label>
-            <select class="form-select" id="validationCustom04" required>
-                <option selected disabled value="">Choose...</option>
+            <select name="ncc" class="form-select" id="validationCustom04" required>
+                <option><?php echo $pr["ncc"]; ?></option>
                 <option>Apple</option>
                 <option>Samsung</option>
                 <option>Oppo</option>
@@ -44,12 +71,12 @@
                 <option>Huawei</option>
             </select>
             <div class="invalid-feedback">
-                Please select a valid state.
+                Please select a supplier.
             </div>
         </div>
         <div class="col-md-12">
             <label for="validationCustom03" class="form-label">Mô tả</label>
-            <textarea rows="5" class="form-control" id="validationCustom03"></textarea>
+            <textarea name="painted" rows="5" class="form-control" id="validationCustom03"><?php echo $pr["painted"]; ?></textarea>
         </div>
         <div class="col-12">
             <button class="btn btn-success" type="submit">Lưu</button>

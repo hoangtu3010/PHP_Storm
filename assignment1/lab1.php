@@ -1,3 +1,5 @@
+
+<?php include_once "databaseSP.php"?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect"   href="https://fonts.gstatic.com" />
     <link
         href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap"
         rel="stylesheet"
@@ -17,31 +19,15 @@
 </head>
 <body>
     <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $db = "product_php";
-
-        $conn = new mysqli($servername, $username, $password, $db);
-
-        if ($conn->connect_errno){
-            die("Connect Error...");
-        }
-
         $sql_txt = "select * from products";
-        $rs = $conn->query($sql_txt);
-        $dssanpham = [];
-        if ($rs->num_rows > 0){
-            while ($row = $rs -> fetch_assoc()){
-                $dssanpham[] = $row;
-            }
-        }
+        $dssanpham = queryDB($sql_txt);
     ?>
     <div class="container">
         <h1 class="text-center" style="margin-top: 20px; padding: 10px; background-color: rgb(13 110 253 / 25%) ;">Danh sách sản phẩm</h1>
     </div>
     <div class="container" style="padding: 50px 10px">
         <a href="addProduct.php"><button class="btn btn-primary" style="margin-bottom: 20px">Thêm mới</button></a>
+        <a href="listProductCart.php"><button class="btn btn-info" style="margin-bottom: 20px"><i class="bi bi-cart"></i></button></a>
         <table class="table table-striped table-hover">
             <thead>
                 <th>STT</th>
@@ -49,7 +35,7 @@
                 <th>Giá</th>
                 <th>Mô Tả</th>
                 <th>NCC</th>
-                <th colspan="2" class="text-center">Tool</th>
+                <th colspan="3" class="text-center">Tools</th>
             </thead>
             <tbody>
                 <?php foreach ($dssanpham as $sp){ ?>
@@ -61,6 +47,7 @@
                         <td><?php echo $sp["ncc"]; ?></td>
                         <td class="text-center"><a href="editProduct.php?id=<?php echo $sp["id"] ?>" style="color: #000"><i class="bi bi-pencil-square"></i></a></td>
                         <td class="text-center"><a href="deleteProduct.php?id=<?php echo $sp["id"] ?>" style="color: #000"><i class="bi bi-trash"></i></a></td>
+                        <td class="text-center"><a href="addCart.php?id=<?php echo $sp["id"] ?>" style="color: #000"><i class="bi bi-cart-plus"></i></a></td>
                     </tr>
                 <?php } ?>
             </tbody>
